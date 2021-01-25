@@ -1,24 +1,28 @@
 <template>
   <div>
-      <div class="container">
-        <form @submit.prevent="login">
-          <div class="card">
-            <div class="card-title">
-              <h2>Auth</h2>
-            </div>
-            <div class="card-body">
-                <div class="form-control">
-                  <input required v-model="email" type="text" placeholder="Snoopy"/>
+      <div class="container d-flex justify-content-center align-items-center" style="height: 100vh">
+        <div class="card text-center" style="width: 30rem;">
+          <div class="card-body">
+            <h2 class="card-title">Authorization</h2>
+            <form @submit.prevent="login">
+              <div class="row justify-content-center mt-2">
+                <div class="row-block">
+                  <input type="email" id="email" required v-model="email" :class="error ? 'error' : ''">
+                  <label for="email" :class="error ? 'error-label' : ''">email</label>
                 </div>
-                <div class="form-control">
-                  <input required v-model="password" type="password" placeholder="Password"/>
+              </div>
+              <div class="row justify-content-center mt-3">
+                <div class="row-block">
+                  <input type="password" id="password" required v-model="password" :class="error ? 'error' : ''">
+                  <label for="password" :class="error ? 'error-label' : ''">password</label>
                 </div>
-            </div>
-            <div class="card-footer">
-              <button type="submit">login</button>
-            </div>
+              </div>
+              <div class="row justify-content-center mt-2">
+                <button type="submit" class="btn"><h2>login</h2></button>
+              </div>
+            </form>
           </div>
-        </form>
+        </div>
       </div>
   </div>
 </template>
@@ -28,72 +32,111 @@ export default {
   name: "Login",
   data(){
     return {
-      email : "",
-      password : ""
+      email: "",
+      password: "",
+      error: false,
     }
   },
   methods: {
     login: function () {
       let email = this.email
       let password = this.password
-      this.$store.dispatch('login', { email, password })
-          .then(() => this.$router.push('/'))
-          .catch(err => console.log(err))
+
+      if (email === '') {
+        this.error = true;
+      } else if (password === '') {
+        this.error = true;
+      } else {
+        this.$store.dispatch('login', { email, password })
+            .then(() => this.$router.push('/'))
+            .catch(err => console.log(err))
+      }
     }
-  }
+  },
 }
 </script>
 
 <style scoped>
-  h2 {
-    font-family: Montserrat;
-    font-style: normal;
-    font-weight: 600;
-    font-size: 26px;
-    line-height: 32px;
-  }
 
-  .container {
-    width: 100%;
-    height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
+h2 {
+  font-family: Montserrat;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 22px;
+  color: #FFFFFF;
+  margin: 0;
+}
 
-  .card {
-    border: 3px solid #7463F7;
-    border-radius: 15px;
-    width: 400px;
-    height: 350px;
-  }
+.card-title {
+  color: #505363;
+}
 
-  .card-title h2 {
-    justify-content: center;
-    display: flex;
-  }
+.row-block {
+  width: 328px;
+  position: relative;
+}
 
-  .card-body {
-    display: flex;
-    justify-content: center;
-  }
+.row-block input {
+  display: block;
+  outline: none;
+  width: 100%;
+  height: 100%;
+  background: #fff;
+  border: 2px solid #505363;
+  border-radius: 4px;
+  padding-top: 16px;
+  padding-left: 22px;
+  padding-bottom: 16px;
+}
 
-  .form-control {
-    margin-top: 15px;
-  }
+.row-block label {
+  cursor: pointer;
+  display: block;
+  position: absolute;
+  left: 22px;
+  top: 16px;
+  -webkit-transition: .2s;
+  transition: .2s;
+  background: white;
+  font-family: Montserrat;
+  font-style: normal;
+  font-weight: 300;
+  font-size: 14px;
+  line-height: 22px;
+  color: #505363;
+}
 
-  .form-control input {
-    border: 2px solid #505363;
-    box-sizing: border-box;
-    border-radius: 4px;
-    height: 56px;
-    width: 355px;
-    padding-top: 17px;
-    padding-bottom: 17px;
-    padding-left: 21px;
-  }
+.row-block input:focus {
+  border: 2px solid #6200EE;
+}
 
-  .form-control input:focus {
-    border: 2px solid #6200EE;
-  }
+.row-block input:valid + label,
+.row-block input:focus + label {
+  top: -10px;
+  left: 10px;
+  font-size: 11px;
+  color: #7463F7;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.btn {
+  width: 326px;
+  height: 56px;
+  background: #7463F7;
+}
+
+.btn:hover {
+  background: #8A7AFD;
+}
+
+.error {
+  border-color: #FE5C61 !important;
+}
+
+.error-label {
+  color: #FE5C61 !important;
+}
+
 </style>

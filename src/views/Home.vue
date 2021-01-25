@@ -1,27 +1,22 @@
 <template>
   <div>
-    <div class="container">
-      <div class="left-panel">
-        <div class="title">
-          <div class="image">
-            <img src="@/assets/profile.svg">
-          </div>
-          <span @click="logout">Logout</span>
+    <div class="container-fluid">
+        <div class="row">
+          <RightPanel />
+          <CenterPanel />
+          <Modal />
         </div>
-      </div>
-      <div class="right-panel">
-        <form @submit.prevent="create">
-          <input type="text" v-model="name">
-          <button type="submit">submit</button>
-        </form>
-      </div>
     </div>
   </div>
 </template>
 <script>
   import {mapActions, mapGetters} from "vuex";
+  import RightPanel from "@/components/RightPanel";
+  import CenterPanel from "@/components/CenterPanel";
+  import Modal from "@/components/Modal";
   export default {
-    name: "Secure.vue",
+    name: "Home",
+    components: {Modal, CenterPanel, RightPanel},
     data() {
       return {
         name: ''
@@ -34,15 +29,10 @@
       this.getOragization();
     },
     methods: {
-      ...mapActions(['getUserOrganizations']),
+      ...mapActions(['getUserOrganizations', 'fetchUser']),
       getOragization: function () {
         this.getUserOrganizations();
-      },
-      logout: function () {
-        this.$store.dispatch('logout')
-            .then(() => {
-              this.$router.push('/login')
-            })
+        this.fetchUser();
       },
       create: function () {
         let name = this.name
@@ -53,33 +43,80 @@
 </script>
 
 <style scoped>
-  .container {
-    width: 100%;
-    height: 100vh;
-    padding: 0;
-    background: #F5F6FA;
-    display: block;
-  }
 
-  .left-panel {
-    width: 81px;
-    height: 100vh;
-    background: #FFFFFF;
-    justify-content: center;
-    display: flex;
-  }
+.container-fluid {
+  background: #F4F7FF;
+}
 
-  .left-panel > .title {
-    padding-top: 35px;
-  }
+.center-block {
+  width: 1000px;
+  height: 860px;
+  background: #FFFFFF;
+}
 
-  .left-panel span {
-    font-family: Montserrat;
-    font-style: normal;
-    font-weight: 600;
-    font-size: 14px;
-    line-height: 17px;
-    color: #505363;
-  }
+.center-block--title {
+  width: 100%;
+  margin-top: 75px;
+  margin-left: 49px;
+  margin-bottom: 43px;
+}
 
+hr {
+  margin-right: 38px;
+  margin-left: 38px;
+  border: 1px solid #EBEEF8;
+}
+
+.center-block--body {
+  width: 100%;
+  margin-left: 35px;
+  margin-right: 35px;
+}
+
+h4 {
+  font-family: Montserrat;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 17px;
+  color: #505363;
+  margin: 0;
+}
+
+.card {
+  background: #F4F7FF;
+  border: none;
+}
+
+.card-header {
+  margin-top: 22px;
+  border: none;
+  padding: 0;
+  background: #F4F7FF;
+}
+
+.card-header img {
+  margin-left: 13px;
+}
+
+.card-header h4 {
+  margin-left: 15px;
+}
+
+.card-footer {
+  border: none;
+  padding: 0;
+  margin-bottom: 16px;
+  margin-top: 82px;
+  margin-left: 13px;
+}
+
+.card-footer {
+  font-family: Montserrat;
+  font-style: normal;
+  font-weight: 300;
+  font-size: 14px;
+  line-height: 22px;
+  color: #505363;
+}
 </style>

@@ -2,7 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import store from '../store/index.js'
 import Login from '../views/Login.vue'
-import Secure from '../views/Home.vue'
+import Home from '../views/Home.vue'
 import Register from '../views/Register.vue'
 
 Vue.use(VueRouter)
@@ -14,14 +14,14 @@ const routes = [
     component: Login
   },
   {
-    path: '/register/:orgId/:tokenId',
+    path: '/register',
     name: 'register',
     component: Register
   },
   {
     path: '/',
     name: 'home',
-    component: Secure,
+    component: Home,
     meta: {
       requiresAuth: true
     }
